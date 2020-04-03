@@ -2,6 +2,7 @@
   (:require [honeyeql.core :as heql]
             [honeyeql.meta-data :as heql-md]
             [honeyeql.db-adapter.postgres :as heql-pg]
+            [honeyeql.db-adapter.mssql :as heql-mssql]
             [honeyeql.db-adapter.mysql :as heql-mysql]))
 
 (defn initialize
@@ -16,4 +17,5 @@
                           :heql-meta-data heql-meta-data}]
      (case db-product-name
        "PostgreSQL" (heql-pg/map->PostgresAdapter db-init-params)
-       "MySQL" (heql-mysql/map->MySqlAdapter db-init-params)))))
+       "MySQL" (heql-mysql/map->MySqlAdapter db-init-params)
+       "Microsoft SQL Server" (heql-mssql/map->MssqlAdapter db-init-params)))))
