@@ -2,11 +2,12 @@
   (:require [honeyeql.meta-data :as heql-md]
             [honeyeql.core :as heql]
             [honeysql.core :as hsql]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [taoensso.timbre :as log]))
 
 (defmethod heql-md/get-db-config "Microsoft SQL Server" [_]
-  {:schema             {:default "dbo"
-                        :ignore  #{"information_schema" "sys" "guest" "db_accessadmin"
+  {:schema             {:default "xyz"
+                        :ignore  #{"INFORMATION_SCHEMA" "sys" "guest" "db_accessadmin"
                                    "db_backoperator" "db_datareader" "db_datawriter"
                                    "db_ddladmin" "db_denydatareader" "db_denydatawriter"
                                    "db_owner" "db_securityadmin"}}

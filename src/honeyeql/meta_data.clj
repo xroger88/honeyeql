@@ -83,13 +83,20 @@
       :entity.relation/foreign-keys #{}
       :entity.relation/ident        (relation-ident db-config table-meta-data)}]))
 
-(defn- entities-meta-data [db-config db-meta-data]
-  (->> (:entities db-meta-data)
-       (map #(to-entity-meta-data db-config %))
-       (into {})))
 
 (defn- schemas-to-ignore [db-config]
   (get-in db-config [:schema :ignore]))
+
+;; added by xroger88
+(defn- filter-tables [db-config tables]
+  (remove #(contains? (schemas-to-ignore db-config) (:table_schem %)) tables))
+
+;; modified by xroger88 to filter out the tables ignored
+(defn- entities-meta-data [db-config db-meta-data]
+  (->> (:entities db-meta-data)
+       (filter-tables db-config)
+       (map #(to-entity-meta-data db-config %))
+       (into {})))
 
 (defn- filter-columns [db-config columns]
   (remove #(contains? (schemas-to-ignore db-config) (:table_schem %)) columns))
